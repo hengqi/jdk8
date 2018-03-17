@@ -17,7 +17,11 @@ public class SwingTest {
 //            }
 //        });
 
-        jButton.addActionListener(e -> System.out.println("Button Pressed!"));
+        jButton.addActionListener(e -> {
+            System.out.println("Button Pressed!");
+            System.out.println("Hello world!");
+
+        });
 
         jFrame.add(jButton);
         jFrame.pack();
