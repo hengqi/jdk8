@@ -29,8 +29,11 @@ public class Test1 {
         });
 
         System.out.println("-----");
-
+        // 使用Lambda表达式
         list.forEach(integer -> System.out.println(integer));
 
+        System.out.println("-----");
+        // 使用方法引用
+        list.forEach(System.out::println);
     }
 }
