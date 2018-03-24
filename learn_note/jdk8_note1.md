@@ -17,15 +17,49 @@
 ## Lambda表达式作用
  * Lambda表达式为Java添加了缺失的函数式编程特性，使我们能将函数当作一等公民看待
  * 在将函数作为一等公民的语言中，Lambda表达式的类型是函数，**但在Java中，Lambda表达式是对象**，他们必须依附于一类特定的对象类型--函数式接口
- 
+ * 传递行为，而不仅仅是值
+   * 提升抽象层次
+   * API重用性更好
+   * 更加灵活
+   
+## Java Lambda基本语法
+ * Java中的Lambda表达式的基本语法
+   * (argument) -> {body}
+   * 比如说
+      * (arg1, arg2...) -> {body}
+      * (type1 arg1, type arg2...) -> {body}
+      
+ * Lambda表达式示例
+   * (int a, int b) -> {return a + b;}
+   * () -> System.out.println("Hello World");
+   * (String s) -> {System.out.println(s);}
+   * () -> 42
+   * () -> {return 3.1415}
+   
+ * 一个Lambda表达式可以有零个或多个参数
+ * 参数的类型既可以明确声明，也可以根据上下文来推断。例如：(int a)与(a)效果相同
+ * 所有参数需包含在圆括号内，参数之间用逗号相隔。
+ * 空圆括号代表参数集为空。
 ## 外部迭代
  * java8之前的迭代都是外部迭代
  
 ##
  * 内部迭代，就是不使用迭代器，直接使用集合内部的接口迭代，比如`list.forEach();`
  
+ 
+## Java Lambda概要
+ * Java Lambda表达式是一种匿名函数；它是没有声明的方法，即没有访问修饰符，返回值声明和名字
+ 
 ## JDK自带的常用的函数式接口
 
-### 1.Consumer
+### 1. `Consumer<T>`
  > 接收一个参数，不返回值。  
  > 函数式方法 `void accept(T t);` 
+ 
+### 2. `Function<T, R>`
+ > 接收一个T类型的参数，返回一个R类型结果。  
+ > 函数式方法 `R apply(T t);`
+ 
+### 3. `BiFunction<T, U, R>`
+ > 接收一个T类型的参数和一个U类型的参数，返回一个R类型结果。  
+ > 函数式方法 `R apply(T t, U u);`
