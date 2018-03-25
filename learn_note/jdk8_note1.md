@@ -63,3 +63,17 @@
 ### 3. `BiFunction<T, U, R>`
  > 接收一个T类型的参数和一个U类型的参数，返回一个R类型结果。  
  > 函数式方法 `R apply(T t, U u);`
+ 
+### 4. `Predicate<T>`
+ > 接收一个T类型的参数，返回一个boolean类型结果。  
+ > 函数式方法 `boolean test(T t);`
+ 
+### 5. `Supplier<T>`
+ > 不接收参数，返回一个T类型结果。  
+ > 函数式方法 `T get();`
+ 
+### 6. `BinaryOperator<T>`
+ > `BiFuction`接口的一个子接口  
+ > 接收两个相同类型的参数，返回一个与参数类型相同的结果。  
+ > 函数式方法 `T apply(T t1, T t2);`
+ 
