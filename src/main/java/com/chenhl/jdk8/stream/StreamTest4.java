@@ -1,9 +1,6 @@
 package com.chenhl.jdk8.stream;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,7 +23,17 @@ public class StreamTest4 {
 //        List<String> list = stream.collect(() -> new ArrayList<>(), (theList, item) -> theList.add(item), (theList1, theList2) -> theList1.addAll(theList2));
 //        list.forEach(s -> System.out.println(s));
 
-        LinkedList<Object> linkedList = stream.collect(LinkedList::new, LinkedList::add, LinkedList::addAll);
-        linkedList.forEach(System.out::println);
+//        LinkedList<Object> linkedList = stream.collect(LinkedList::new, LinkedList::add, LinkedList::addAll);
+//        linkedList.forEach(System.out::println);
+
+//        ArrayList<String> collect = stream.collect(Collectors.toCollection(ArrayList::new));
+//        collect.forEach(System.out::println);
+
+//        TreeSet<String> collect = stream.collect(Collectors.toCollection(TreeSet::new));
+//        System.out.println(collect.getClass());
+//        collect.forEach(System.out::println);
+
+        String s = stream.collect(Collectors.joining("|")).toString();
+        System.out.println(s);
     }
 }
