@@ -8,5 +8,6 @@ public class PredicateTest {
         Predicate<String> predicate = p -> p.length() > 5;
 
         System.out.println(predicate.test("hello"));
+        System.out.println(predicate.test("hello1"));
     }
 }

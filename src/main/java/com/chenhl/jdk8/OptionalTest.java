@@ -6,7 +6,8 @@ public class OptionalTest {
 
     public static void main(String[] args) {
 //        Optional<String> optional = Optional.of("hello");
-        Optional<String> optional = Optional.empty();
+//        Optional<String> optional = Optional.empty();
+        Optional<String> optional = Optional.ofNullable("hello");
 
 //        if (optional.isPresent()) {
 //            System.out.println(optional.get());

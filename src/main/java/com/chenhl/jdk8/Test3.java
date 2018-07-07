@@ -1,6 +1,5 @@
 package com.chenhl.jdk8;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -34,7 +33,7 @@ public class Test3 {
 //        list.forEach(item -> list1.add(item.toUpperCase()));
 //        System.out.println(list1);
 
-//        list.stream().map(item -> item.toUpperCase()).forEach(item -> System.out.println(item));
+        list.stream().map(item -> item.toUpperCase()).forEach(item -> System.out.println(item));
         // 使用方法引用的方式
 //        list.stream().map(String::toUpperCase).forEach(item -> System.out.println(item));
 

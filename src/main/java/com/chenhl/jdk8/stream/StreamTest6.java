@@ -1,7 +1,6 @@
 package com.chenhl.jdk8.stream;
 
 import java.util.IntSummaryStatistics;
-import java.util.UUID;
 import java.util.stream.Stream;
 
 public class StreamTest6 {
@@ -30,6 +29,7 @@ public class StreamTest6 {
 
         System.out.println("----------");
 
+        // 找出大于2的元素，将每个元素*2，忽略前两个元素，再取前两个元素，
         IntSummaryStatistics statistics = stream1.filter(item -> item > 2).mapToInt(item -> item * 2).skip(2).limit(2).summaryStatistics();
 
         System.out.println(statistics.getAverage());

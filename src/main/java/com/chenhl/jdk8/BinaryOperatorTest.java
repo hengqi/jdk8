@@ -11,8 +11,10 @@ public class BinaryOperatorTest {
 
         System.out.println("--------------");
         System.out.println(test.getShort("hello123", "world", (a, b) -> a.length() - b.length()));
+        System.out.println(test.getShort("hello123", "world", Comparator.comparingInt(String::length)));
         System.out.println("--------------");
         System.out.println(test.getShort("hello", "world", (a, b) -> a.charAt(0) - b.charAt(0)));
+        System.out.println(test.getShort("hello", "world", Comparator.comparingInt(a -> a.charAt(0))));
 
     }
 
@@ -21,6 +23,7 @@ public class BinaryOperatorTest {
     }
 
     public String getShort(String a, String b, Comparator<String> comparator) {
-        return BinaryOperator.minBy(comparator).apply(a, b);
+//        return BinaryOperator.minBy(comparator).apply(a, b);
+        return BinaryOperator.maxBy(comparator).apply(a, b);
     }
 }

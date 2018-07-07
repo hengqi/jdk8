@@ -1,6 +1,5 @@
 package com.chenhl.jdk8.stream;
 
-import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -8,15 +7,13 @@ public class StreamTest4 {
 
     public static void main(String[] args) {
 
-//        Stream<String> stream = Stream.of("hello", "world", "hello world");
-
+        Stream<String> stream = Stream.of("hello", "world", "hello world");
+//        将一个流转换一个数组
 //        String[] strings = stream.toArray(length -> new String[length]);
-
 //        String[] strings = stream.toArray(String[]::new);
 //        Arrays.asList(strings).forEach(s -> System.out.println(s));
 
-
-        Stream<String> stream = Stream.of("hello", "world", "hello world");
+//将一个流转换一个集合
 //        List<String> collect = stream.collect(Collectors.toList());
 //        collect.forEach(s -> System.out.println(s));
 
@@ -33,7 +30,7 @@ public class StreamTest4 {
 //        System.out.println(collect.getClass());
 //        collect.forEach(System.out::println);
 
-        String s = stream.collect(Collectors.joining("|")).toString();
+        String s = stream.collect(Collectors.joining("|"));
         System.out.println(s);
     }
 }
