@@ -2,6 +2,10 @@ package com.chenhl.jdk8;
 
 import java.util.function.Function;
 
+/**
+ * 高阶函数： 接收一个函数，返回一个函数
+ */
+
 public class FunctionTest {
 
     public static void main(String[] args) {
@@ -17,6 +21,7 @@ public class FunctionTest {
 
     }
 
+
     public int compute(int a, Function<Integer, Integer> function) {
         int result = function.apply(a);
         return result;
@@ -25,4 +30,19 @@ public class FunctionTest {
     public String convert(int a, Function<Integer, String> function) {
         return function.apply(a);
     }
+
+
+    public int method1(int a) {
+        return 2 * a;
+    }
+
+    public int method2(int a) {
+        return 5 + a;
+    }
+
+    public int method3(int a) {
+        return a * a;
+    }
+
+
 }

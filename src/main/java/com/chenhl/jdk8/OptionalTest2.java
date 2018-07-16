@@ -1,9 +1,9 @@
 package com.chenhl.jdk8;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class OptionalTest2 {
 
@@ -18,11 +18,18 @@ public class OptionalTest2 {
         company.setName("company1");
 
         List<Employee> employees = Arrays.asList(employee1, employee2);
-//        company.setEmployeeList(employees);
+        company.setEmployeeList(employees);
 
         Optional<Company> optional = Optional.ofNullable(company);
 
-        System.out.println(optional.map(theCompany -> theCompany.getEmployeeList()).orElse(Collections.emptyList()));
+//        System.out.println(optional.map(theCompany -> theCompany.getEmployeeList()).orElse(Collections.emptyList()));
+
+        Optional<Employee> optional2 = employees.stream().filter(item -> item.getName().equals("lisi")).findFirst();
+        AtomicBoolean isExist= new AtomicBoolean(false);
+        optional2.ifPresent( t -> isExist.set(true));
+        if (optional2.isPresent()) {
+            System.out.println(optional2.get());
+        }
 
     }
 
