@@ -1,8 +1,40 @@
 1. collect:收集
-2. Collector作为collect的方法参数
-3. Collector是一个接口, 是一个可变的汇聚操作，它会累积输入元素到一个可变的结果容器中，在所有的输入元素都被处理完后，将累积的结果转换为一个最终的表示（这是一个可选操作）
-它支持串行和并行两种方式执行。
-4. 可变的汇聚操作包含：比如说，将元素累积到一个集合里；使用StringBuilder连接字符串；计算概述信息比如，总和，最小值，最大值和平均值；计算根据卖家统计最大的交易量的透视图等。
-类Collectors提供了很多公共的可变的汇聚操作的实现， Collectors本身实际上是一个工厂。
-5. 一个Collector被指定通过四个函数
 
+2. Collector作为collect的方法参数
+
+3. Collector的javadoc文档：
+    3.0 Collector<T, A, R>：其中T指的是流中每个元素的类型，A指的是可变的累积类型，R指的是结果类型
+    3.1 Collector是一个接口, 是一个可变的汇聚操作，它会累积输入元素到一个可变的结果容器中，在所有的输入元素都被处理完后，将累积的结果转换为一个最终的表示（这是一个可选操作）。
+        它支持串行和并行两种方式执行。
+    3.2 可变的汇聚操作包含：比如说，将元素累积到一个集合里；使用StringBuilder连接字符串；计算概述信息比如，总和，最小值，最大值和平均值；计算根据卖家统计最大的交易量的透视图等。
+        类Collectors提供了很多公共的可变的汇聚操作的实现， Collectors本身实际上是一个工厂。
+    3.3 一个Collector是通过四个函数来指定，这四个函数一起协同工作累积输入元素到一个可变的容器当中，（可选的）并且对结果执行一个最终的转换。这四个函数是：
+        1、supplier()，用来创建一个新的结果容器
+        2、accumulator()，将一个新的输入元素合并到结果容器当中，也成为累加器。
+        3、combiner()，合并两个结果容器的结果到一个里面，也成为合并器。（跟并行流密切相关）
+        4、finisher()，执行一个最终的转换，将中间的累积类型转换为最终的结果类型，也称为完成器。
+    3.4 Collectors还有一个特性的集合，比如：Characteristics#CONCURRENT，表示对于并发提供了更好的性能
+    3.5 使用一个collactor的一个单线程的实现，将会使用supper()函数，创建一个单一的结果容器。针对每一个输入元素都会调用accumulator()函数一次。一个并行的实现呢，将会对输入元素
+        进行分区，针对每一个分区创建一个结果容器，累积每个分区的内容到一个部分结果当中。然后使用combiner()函数来合并子结果到一个（合并的）结果当中。
+    3.6 为了确保串行与并行执行会生成一个等价的结果，收集器必须要满足“同一性”和“结合性”两个约束
+        1、同一性说的是针对于任何的一个部分累积结果，将它与一个空的结果容器合并，必须生成一个等价的结果。也就是说，a == combiner.apply(a, supplier.get());
+        2、结合性表示的是分割计算必须也要得到一个等价的结果。也就是说，对于任何输入t1,t2,结果容器r1,r2
+              A a1 = supplier.get();
+              accumulator.accept(a1, t1);
+              accumulator.accept(a1, t2);
+              R r1 = finisher.apply(a1);  // result without splitting
+
+              A a2 = supplier.get();
+              accumulator.accept(a2, t1);
+              A a3 = supplier.get();
+              accumulator.accept(a3, t2);
+              R r2 = finisher.apply(combiner.apply(a2, a3));  // result with splitting
+    3.7 对于没有UNORDER特性的收集器来说，如果finisher.apply(a1).equals(finisher.apply(a2))，两个累积的结果a1与a2是等价的。
+    3.8 对于基于collector实现汇聚操作的库，比如说Stream#collect(Collector)，必须遵守如下的约束：
+        1、传递给accumulator()函数的第一个参数，传递给combiner()函数的两个参数，以及传递给finisher()函数的参数，必须是supplier,accumulator,combiner前一次调用的结果。
+        2、实现不应该对supplier,accumulator,combiner函数的结果做任何的修改，除了将结果传递给accumulator,combiner,finisher函数或者将它们传递给调用方。
+        3、如果一个结果被传递给combiner，finisher函数后，然后相同的对象没有从这个函数中返回，那么就再也不会被使用了。
+        4、一旦一个结果被传递给combiner，finisher函数后，就不会再传递给accumulator了。
+        5、对于非并发的收集器来说，supplier,accumulator,combiner函数返回的结果都必须是针对于当前线程的，这能够确保收集发生不需要额外的同步。汇聚操作必须管理输入在签到的分区里，
+        分区是单独的被处理，最后当accumulator都处理完后，再去合并。
+        6、对于并发的收集器，实现是不被强制的，去实现一个并发的汇聚。
