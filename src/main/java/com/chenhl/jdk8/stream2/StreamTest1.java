@@ -1,7 +1,7 @@
 package com.chenhl.jdk8.stream2;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
 import static java.util.stream.Collectors.*;
 
 public class StreamTest1 {
@@ -11,8 +11,9 @@ public class StreamTest1 {
         Student student2 = new Student("lisi", 90);
         Student student3 = new Student("wangwu", 100);
         Student student4 = new Student("zhaoliu", 90);
+        Student student5 = new Student("zhaoliu", 90);
 
-        List<Student> students = Arrays.asList(student1, student2, student3, student4);
+        List<Student> students = Arrays.asList(student1, student2, student3, student4, student5);
 
         List<Student> students1 = students.stream().collect(toList());
         students1.forEach(System.out::println);
@@ -22,5 +23,52 @@ public class StreamTest1 {
         // 求出流中元素的个数
         System.out.println("counting: " + students.stream().collect(counting()));
         System.out.println("counting: " + students.stream().count());
+
+        System.out.println("------------");
+
+        // 找出集合中分数最低,最高的一个学生
+        students.stream().collect(minBy(Comparator.comparingInt(Student::getScore))).ifPresent(System.out::println);
+        students.stream().collect(maxBy(Comparator.comparingInt(Student::getScore))).ifPresent(System.out::println);
+        // 求平均值
+        Double avg = students.stream().collect(averagingInt(Student::getScore));
+        System.out.println(avg);
+        System.out.println(students.stream().collect(summingInt(Student::getScore)));
+        IntSummaryStatistics intSummaryStatistics = students.stream().collect(summarizingInt(Student::getScore));
+        System.out.println(intSummaryStatistics);
+
+        System.out.println("------------");
+
+        //字符串拼接
+        System.out.println(students.stream().map(Student::getName).collect(joining()));
+        System.out.println(students.stream().map(Student::getName).collect(joining(",")));
+        System.out.println(students.stream().map(Student::getName).collect(joining(",", "【", "】")));
+
+
+        System.out.println("------------");
+
+        //根据分数分组，然后根据名字分组
+        Map<Integer, Map<String, List<Student>>> map = students.stream().collect(groupingBy(Student::getScore, groupingBy(Student::getName)));
+        System.out.println(map);
+
+        // 分组
+        System.out.println("------------");
+        Map<Boolean, List<Student>> map1 = students.stream().collect(partitioningBy(student -> student.getScore() > 80));
+        System.out.println(map1);
+
+        System.out.println("------------");
+        Map<Boolean, Map<Boolean, List<Student>>> map2 = students.stream().collect(partitioningBy(student -> student.getScore() > 80,
+                partitioningBy(student -> student.getScore() > 90)));
+        System.out.println(map2);
+
+        System.out.println("------------");
+        Map<Boolean, Long> map3 = students.stream().collect(partitioningBy(student -> student.getScore() > 80, counting()));
+        System.out.println(map3);
+
+        System.out.println("------------");
+        //先按照名字进行分组，求每个分组中的分数最小的那个
+        Map<String, Student> map4 = students.stream().
+                collect(groupingBy(Student::getName, collectingAndThen(minBy(Comparator.comparingInt(Student::getScore)),
+                        Optional::get)));
+        System.out.println(map4);
     }
 }
