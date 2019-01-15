@@ -70,5 +70,7 @@ public class StreamTest1 {
                 collect(groupingBy(Student::getName, collectingAndThen(minBy(Comparator.comparingInt(Student::getScore)),
                         Optional::get)));
         System.out.println(map4);
+
+
     }
 }

@@ -1,0 +1,22 @@
+select name from student where age>20 and address='beijing' order by age desc;
+
+sql语句本身是一种描述性的语言，我们只是告诉DB我们要找符合我们条件的数据，并没有告诉DB如何去做，至于怎么找，是DB做的事情。
+
+students.stream().filter(stu -> stu.getAge()>20).filter(stu -> stu.getAddress().equals('beijing')).sort(Comparator.comparingInt(Student::getAge).reversed()).collect(Collectors.toList);
+
+流的这种写法跟SQL语句本质上是一样的，流的这种方式称为内部迭代。
+
+如果之前的方式：
+List<Student> studentList = new ArrayList<>();
+for(int i=0;i<students.size();i++){
+    Student student = students.get(i);
+
+    if(stu.getAge()>20 && stu.getAddress().equals('beijing')) {
+           studentList.add(stu);
+    }
+}
+
+Collections.sort(studentList, new Comparator() {
+    ....
+})
+
